@@ -8,22 +8,22 @@ First:
 Get a Lifx smart light bulb. I used the A19.
 https://www.amazon.com/Tapo-Equivalent-Matter-Certified-L535E-2-Pack/dp/B0CFG9SHPQ?ref_=ast_slp_dp&th=1&psc=1
 
-    You can also buy these at HomeDepot, or ACE Hardware ($12 bucks!) etc,
-    ...these light also work with Alexa, Siri, etc.
+You can also buy these at HomeDepot, or ACE Hardware ($12 bucks!) etc,
+...these light also work with Alexa, Siri, etc.
 
-    Suggest install the Lifx phone app and connect the lightbulb to your wifi (you'll give the light a name, which you can then see and use in your prompts). Then you can get started knowing the lightbulb is wired up.
+Suggest install the Lifx phone app and connect the lightbulb to your wifi (you'll give the light a name, which you can then see and use in your prompts). Then you can get started knowing the lightbulb is wired up.
 
-    And of course get your Lifx API key: these are FREE!
+And of course get your Lifx API key: these are FREE!
 
 Second:
 Sign up for the Claude API key
 ...and yes: they will want a credit card to use the API key.
 
-    But they have a special $5 dollar Token Burger! And once you eat up the tokens, your happy meal is done.
+But they have a special $5 dollar Token Burger! And once you eat up the tokens, your happy meal is done.
 
-    But note: I input hunderds of Claude chats, and consumed thousands of tokens playing around with this app and still used less than 10 Cents worth of my token burger budget.
+But note: I input hunderds of Claude chats, and consumed thousands of tokens playing around with this app and still used less than 10 Cents worth of my token burger budget.
 
-    And yes: there are built in Guard Rails in this app to help make sure Claude doesn't do something insane to you, or your lightbulb (see notes below).
+And yes: there are built in Guard Rails in this app to help make sure Claude doesn't do something insane to you, or your lightbulb (see notes below).
 
 The inspiration for this app was from Burke Holland (Stellar stuff! This guy rocks!)
 Highly suggest watching this video:
@@ -33,7 +33,7 @@ Just a Note on API keys.
 This demo app stores the API keys (for Lifx and Claude) in password fields.
 Thus, the keys are only good for your browser session.
 
-    Keep track of your keys maybe in Notepad, etc so you can copy --> paste them.
+Keep track of your keys maybe in Notepad, etc so you can copy --> paste them.
 
 ## 🎯 Demo App
 
@@ -75,7 +75,7 @@ This application creates a **smart lighting control system** that works in three
                                           ▼
                                 ┌─────────────────────┐
                                 │   Claude AI API     │
-                                │  (api.anthropic.com) │
+                                │  (api.anthropic.com)│
                                 └─────────────────────┘
 ```
 
@@ -110,11 +110,11 @@ Browsers can only make HTTP requests, WebSocket connections, or similar web prot
 2.  Process Management Limitation
     The LIFX MCP Server is a Node.js child process that needs to be:
 
-        Spawned with specific environment variables (LIFX_TOKEN)
-        Monitored for crashes/exits
-        Restarted when needed
-        Killed when stopping
-        Browsers cannot spawn, manage, or directly communicate with OS processes for security reasons.
+    Spawned with specific environment variables (LIFX_TOKEN)
+    Monitored for crashes/exits
+    Restarted when needed
+    Killed when stopping
+    Browsers cannot spawn, manage, or directly communicate with OS processes for security reasons.
 
 3.  Protocol Translation Required
     The communication happens like this:
@@ -137,7 +137,7 @@ Browsers can only make HTTP requests, WebSocket connections, or similar web prot
 #### Lifx MCP Server - lifx-api-mcp-server.js
 
 This is really just a just a JSON wrapper around the Lifx REST based API's.
-But it's also a bunch more. It allows a LLM's (large language model) to have a common interface.
+But an MCP server is also a bunch more. It allows a LLM's (large language model) to have a common interface.
 An MCP server has:
 
 - Tools, in this case the endpoint apis at Lifx.
