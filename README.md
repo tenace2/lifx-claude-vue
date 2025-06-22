@@ -54,6 +54,10 @@ This project demonstrates how to build a bridge between AI assistants and IoT de
 ![Claude AI](https://img.shields.io/badge/Claude_AI-FF6B35?style=flat&logo=anthropic&logoColor=white)
 ![LIFX](https://img.shields.io/badge/LIFX_Smart_Lights-000000?style=flat&logoColor=white)
 
+🚀 BONOUS INFO
+Here's a high level overview about this project up on my blog site with app screen shots explaining how this app works:
+https://my-digital-garden-vercel-orpin.vercel.app/claude-ai-mcp-lifx/claude-ai-mcp-lifx-lights/
+
 ## 🎯 What This Project Does
 
 This application creates a **smart lighting control system** that works in three ways:
@@ -456,3 +460,10 @@ This project is for educational and demonstration purposes. Please check individ
 ---
 
 **Built with ❤️ as a learning project to explore MCP, AI integration, and modern web development.**
+
+Disclaimer
+This software is provided "as is", without warranty of any kind. Use at your own risk.
+The author is not affiliated with LIFX (LiFi Labs Inc.).
+Ensure you understand the LIFX API rate limits (120 requests/minute per token) to avoid temporary blocks. Rate limit information is logged if logLevel is verbose.
+Ensure you understand the Claude API as well...suggest just use the $5 meal deal, as when you eat up the tokens your meal is done.
+This project was partially generated with AI assistance and almost no doubt will contain bugs.
