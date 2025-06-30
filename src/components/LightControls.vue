@@ -83,6 +83,7 @@
 
 <script setup>
 	import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
+	import { apiCall } from '../composables/useBackendConnection.js';
 
 	// Props (to receive server status from parent)
 	const props = defineProps({
@@ -99,7 +100,7 @@
 	});
 
 	const commandOutput = ref([]);
-	const API_BASE_URL = 'http://localhost:3001/api';
+	// API calls now use automatic port discovery
 
 	// Computed properties
 	const isConnected = computed(() => props.mcpServerConnected);
@@ -134,7 +135,7 @@
 		try {
 			addCommandResult(command, 'info', `Sending: ${description}`);
 
-			const response = await fetch(`${API_BASE_URL}/mcp-command`, {
+			const response = await apiCall('/api/mcp-command', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ command }),

@@ -1,4 +1,9 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
+import {
+	backendConnection,
+	apiCall,
+	discoverBackend,
+} from './useBackendConnection.js';
 
 // Shared state - will be the same across all components
 const serverStatus = reactive({
@@ -8,13 +13,11 @@ const serverStatus = reactive({
 	startTime: null,
 });
 
-// Separate state for backend server manager reachability
+// Backend reachability is now handled by backendConnection
 const backendReachable = ref(false);
 
 const serverOutput = ref([]);
 let statusInterval = null;
-
-const API_BASE_URL = 'http://localhost:3001/api';
 
 // Helper function to add log entries (for compatibility with TokenManager)
 const addLogEntry = (level, message) => {
@@ -36,7 +39,8 @@ const addLogEntry = (level, message) => {
 // Main status fetching function
 const fetchServerStatus = async () => {
 	try {
-		const response = await fetch(`${API_BASE_URL}/status`);
+		const response = await apiCall('/api/status');
+
 		if (response.ok) {
 			// Backend server is reachable
 			backendReachable.value = true;
@@ -77,19 +81,29 @@ const fetchServerStatus = async () => {
 		// Backend server is not reachable
 		backendReachable.value = false;
 
+		// Update connection status based on backendConnection state
+		backendReachable.value = backendConnection.isConnected;
+
 		// Update connection status
-		serverStatus.running = false;
-		serverStatus.connected = false;
-		serverStatus.pid = null;
-		serverStatus.startTime = null;
+		if (!backendConnection.isConnected) {
+			serverStatus.running = false;
+			serverStatus.connected = false;
+			serverStatus.pid = null;
+			serverStatus.startTime = null;
+		}
 
 		// Only log if we haven't seen this error recently
 		if (
 			!serverOutput.value.some((log) =>
-				log.message.includes('Failed to fetch server status')
+				log.message.includes('Backend server not available')
 			)
 		) {
 			addLogEntry('error', `Backend server not available (${error.message})`);
+
+			// Show port discovery info
+			if (backendConnection.port) {
+				addLogEntry('info', `Using backend on port ${backendConnection.port}`);
+			}
 		}
 	}
 };
@@ -131,5 +145,8 @@ export function useBackendStatus() {
 		startPolling,
 		stopPolling,
 		addLogEntry,
+		// Expose connection info for debugging
+		backendConnection,
+		discoverBackend,
 	};
 }

@@ -35,6 +35,10 @@ Thus, the keys are only good for your browser session.
 
 Keep track of your keys maybe in Notepad, etc so you can copy --> paste them.
 
+Some update June 30th 2025:
+Server port was hardcoded to 3001. Added ability to use different backend server ports, 3001, 3002 etc.
+This was necessary when testing or using other projects using backend servers that also used 3001, 3002, etc.
+
 ## 🎯 Demo App
 
 This is a demonstration application that showcases:

@@ -1,4 +1,6 @@
 // Claude API Service
+import { apiCall } from '../composables/useBackendConnection.js';
+
 class ClaudeApiService {
 	constructor() {
 		this.apiKey = null;
@@ -121,8 +123,8 @@ Always use the tool for actual light control, then confirm the action in your re
 			console.log('useSystemPrompt type:', typeof useSystemPrompt);
 			console.log('=== END FRONTEND DEBUG ===');
 
-			// Use backend proxy instead of direct API call
-			const response = await fetch('http://localhost:3001/api/claude', {
+			// Use backend proxy with automatic port discovery
+			const response = await apiCall('/api/claude', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -267,8 +269,8 @@ Always use the tool for actual light control, then confirm the action in your re
 		}
 
 		try {
-			// Send command to MCP server via backend
-			const response = await fetch('http://localhost:3001/api/lifx-command', {
+			// Send command to MCP server via backend with automatic port discovery
+			const response = await apiCall('/api/lifx-command', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -52,9 +52,13 @@
 									Backend Server (mcp-server-manager.js) Running
 								</div>
 								<div class="text-caption">
-									✓ HTTP API server active on port 3001<br />
+									✓ HTTP API server active on port
+									{{ backendConnection.port || '(discovering...)' }}<br />
 									✓ Ready to manage LIFX MCP server process<br />
-									✓ Protocol bridge: HTTP ↔ JSON-RPC
+									✓ Protocol bridge: HTTP ↔ JSON-RPC<br />
+									<span v-if="backendConnection.port" class="text-blue-3">
+										🔍 Auto-discovered on {{ backendConnection.baseUrl }}
+									</span>
 								</div>
 							</div>
 							<div v-else>
@@ -108,7 +112,7 @@
 	});
 
 	// Use the shared backend status
-	const { backendReachable } = useBackendStatus();
+	const { backendReachable, backendConnection } = useBackendStatus();
 
 	const linksList = [
 		{

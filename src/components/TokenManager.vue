@@ -31,10 +31,18 @@
 							<strong>Two-Server Architecture</strong>
 						</div>
 						<div class="text-caption text-blue-7">
-							<strong>Backend Manager:</strong> mcp-server-manager.js (running
-							on port 3001) - Provides HTTP API for this web interface<br />
+							<strong>Backend Manager:</strong> mcp-server-manager.js
+							<span v-if="backendConnection.port">
+								(running on port {{ backendConnection.port }})
+							</span>
+							<span v-else>(discovering port...)</span>
+							- Provides HTTP API for this web interface<br />
 							<strong>LIFX MCP Server:</strong> lifx-api-mcp-server.js (child
 							process) - Handles actual LIFX device communication
+							<br />
+							<span v-if="backendConnection.baseUrl" class="text-green-7">
+								🔍 Connected to {{ backendConnection.baseUrl }}
+							</span>
 						</div>
 					</div>
 				</div>
@@ -293,13 +301,19 @@
 	import { ref, reactive, onMounted, watch } from 'vue';
 	import { useQuasar } from 'quasar';
 	import { useBackendStatus } from '../composables/useBackendStatus.js';
+	import { apiCall } from '../composables/useBackendConnection.js';
 
 	// Quasar instance for notifications
 	const $q = useQuasar();
 
 	// Use shared backend status instead of local state
-	const { serverStatus, serverOutput, addLogEntry, fetchServerStatus } =
-		useBackendStatus();
+	const {
+		serverStatus,
+		serverOutput,
+		addLogEntry,
+		fetchServerStatus,
+		backendConnection,
+	} = useBackendStatus();
 
 	// Emits
 	const emit = defineEmits(['server-status-change']);
@@ -316,7 +330,7 @@
 	});
 
 	// Polling interval for status updates (now managed by composable)
-	const API_BASE_URL = 'http://localhost:3001/api';
+	// API calls now use automatic port discovery
 
 	// Watch for server status changes and emit to parent
 	watch(
@@ -385,7 +399,7 @@
 		try {
 			addLogEntry('info', 'Starting MCP server...');
 
-			const response = await fetch(`${API_BASE_URL}/start`, {
+			const response = await apiCall('/api/start', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -409,7 +423,7 @@
 		try {
 			addLogEntry('info', 'Stopping MCP server...');
 
-			const response = await fetch(`${API_BASE_URL}/stop`, {
+			const response = await apiCall('/api/stop', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 			});
@@ -435,7 +449,7 @@
 		try {
 			addLogEntry('info', 'Restarting MCP server...');
 
-			const response = await fetch(`${API_BASE_URL}/restart`, {
+			const response = await apiCall('/api/restart', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -598,7 +612,7 @@
 	// Clear server output
 	const clearServerOutput = async () => {
 		try {
-			const response = await fetch('http://localhost:3001/api/clear-logs', {
+			const response = await apiCall('/api/clear-logs', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
